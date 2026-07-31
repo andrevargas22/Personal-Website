@@ -17,7 +17,7 @@ import secrets
 from scripts.functions import fetch_articles, get_games_by_letter
 
 # Testing functions
-from scripts.testing import handle_websub_callback
+from scripts.testing import handle_websub_callback, fetch_energy_forecast_data
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -61,7 +61,7 @@ def add_security_headers(response):
     nonce = getattr(g, "csp_nonce", "")
     response.headers["Content-Security-Policy"] = (
         "default-src 'self'; "
-        f"script-src 'self' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://api.mapbox.com 'nonce-{nonce}' blob:; "
+        f"script-src 'self' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://api.mapbox.com https://cdn.plot.ly 'nonce-{nonce}' blob:; "
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com; "
         "img-src 'self' data: https://api.mapbox.com https://miro.medium.com https://cdn-images-1.medium.com https://i.gifer.com; "
         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; "
@@ -181,6 +181,18 @@ def mnist():
 
 
 ############################## TESTING FEATURES ##############################
+#### Energy Consumption Forecast:
+@app.route("/energy_forecast")
+def energy_forecast():
+    """
+    Renders the Brazilian Energy Consumption Forecast page.
+    Fetches the latest Plotly figure JSON from the AutoML repo and passes it
+    to the template for client-side rendering via Plotly.js.
+    """
+    figure_data = fetch_energy_forecast_data()
+    return render_template("pages/energy_forecast.html", figure_data=figure_data)
+
+
 #### WebSub Callback:
 @app.route("/websub/callback", methods=["GET", "POST"])
 def websub_callback():

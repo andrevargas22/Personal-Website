@@ -1,0 +1,43 @@
+/* Energy Consumption Forecast Page Styles */
+
+body {
+    background: #FFFAF0;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+.navbar-nav > li {
+    margin: 0 30px;
+}
+
+/* Plot container */
+#forecast-plot {
+    width: 100%;
+    min-height: 520px;
+}
+
+/* Unavailable state */
+#forecast-unavailable {
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    background: #f8f9fa;
+}
+
+/* Info cards */
+.card {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.card-text {
+    color: #555;
+    line-height: 1.5;
+}
