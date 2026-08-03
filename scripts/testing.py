@@ -546,28 +546,19 @@ def handle_websub_callback(
 
 # ==================== Energy Forecast ====================
 
-_FORECAST_JSON_PATH = (
-    os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                 "static", "json", "forecast_plot.json")
-)
+_GCS_BUCKET = "energy_consumption_automl"
+_GCS_BLOB   = "forecast_plot.json"
 
 
 def fetch_energy_forecast_data() -> dict | None:
-    """Load the latest energy forecast Plotly figure JSON from the static folder.
-
-    The file (static/json/forecast_plot.json) is updated by the AutoML repo's
-    monthly GitHub Actions workflow, which commits the new JSON via the GitHub
-    API after each forecast run.
-
-    Returns:
-        dict with 'data' and 'layout' keys ready for Plotly.newPlot(), or None
-        if the file is missing or malformed (template renders a fallback message).
-    """
+    """Download the latest energy forecast Plotly JSON from GCS."""
     import json as _json
+    from google.cloud import storage as _gcs
 
     try:
-        with open(_FORECAST_JSON_PATH, encoding="utf-8") as f:
-            return _json.load(f)
+        client = _gcs.Client()
+        blob = client.bucket(_GCS_BUCKET).blob(_GCS_BLOB)
+        return _json.loads(blob.download_as_text(encoding="utf-8"))
     except Exception as exc:
-        logging.warning(f"[EnergyForecast] Could not read forecast JSON: {exc}")
+        logging.warning(f"[EnergyForecast] Could not fetch forecast from GCS: {exc}")
         return None
