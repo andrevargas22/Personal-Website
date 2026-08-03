@@ -5,7 +5,6 @@ __pycache__/
 # Json files
 *.json
 !games.json
-!static/json/forecast_plot.json
 
 # .env local file
 .env.local
