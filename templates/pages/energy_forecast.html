@@ -1,7 +1,7 @@
 <!--
     Personal Website - Brazilian Energy Consumption Forecast
     Description: Interactive visualization of monthly energy consumption forecast
-    using an H2O AutoML GBM model trained on ONS open data. Updated automatically
+    using an H2O AutoML model trained on ONS open data. Updated automatically
     every month via GitHub Actions.
 -->
 
@@ -22,7 +22,7 @@
                 <h4 class="border-bottom border-dark p-2">Brazilian Energy Consumption Forecast</h4>
                 <center>
                     <p>
-                        An end-to-end AutoML pipeline that trains a GBM model on historical ONS open data
+                        An end-to-end AutoML pipeline that trains an AutoML model on historical ONS open data
                         and produces monthly forecasts of electric energy consumption across Brazil's four
                         subsystems (N, NE, S, SE) and the national grid (SIN).
                         Updated automatically on the 1st of each month via GitHub Actions.
@@ -38,8 +38,8 @@
                     <b>Tip:</b> Click a legend item to show/hide it.
                     Double-click to isolate a single series.
                     Use the range buttons or the slider below the chart to zoom into a period.
-                    The <span style="color:#ff7f0e;font-weight:600;">orange</span> region is the future forecast;
-                    the <span style="color:#2ca02c;font-weight:600;">green</span> region is the held-out test period.
+                    The <span style="color:#ff7f0e;font-weight:600;">orange</span> region is the forecast;
+                    to the left of the line, actual data overlaps the forecast for comparison.
                 </p>
             </div>
         </div>
@@ -66,8 +66,7 @@
                         <h6 class="card-title">Data Source</h6>
                         <p class="card-text small">
                             Daily energy load, reservoir storage (EAR) and generation mix
-                            from the <a href="https://dados.ons.org.br" target="_blank" rel="noopener">ONS open data portal</a>,
-                            updated daily at 12h and 19h BRT.
+                            from the <a href="https://dados.ons.org.br" target="_blank" rel="noopener">ONS open data portal</a>.
                         </p>
                     </div>
                 </div>
@@ -77,8 +76,15 @@
                     <div class="card-body">
                         <h6 class="card-title">Model</h6>
                         <p class="card-text small">
-                            H2O AutoML — best model: GBM with 36 engineered features
-                            (temporal, lag, rolling, ratios). Test MAPE: <b>2.19%</b>.
+                            {% if metadata %}
+                                H2O AutoML — best model: <b>{{ metadata.model_type }}</b> with {{ metadata.n_features }} engineered features
+                                (temporal, lag, rolling, ratios). Test MAPE: <b>{{ metadata.test_mape }}%</b>.
+                                {% if metadata.current_month_mape is not none and metadata.current_month_days > 0 %}
+                                    Current month MAPE ({{ metadata.current_month_days }} day{{ 's' if metadata.current_month_days != 1 }}): <b>{{ metadata.current_month_mape }}%</b>.
+                                {% endif %}
+                            {% else %}
+                                H2O AutoML with engineered features (temporal, lag, rolling, ratios).
+                            {% endif %}
                             Tracked and versioned in MLflow.
                         </p>
                     </div>

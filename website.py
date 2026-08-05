@@ -17,7 +17,7 @@ import secrets
 from scripts.functions import fetch_articles, get_games_by_letter
 
 # Testing functions
-from scripts.testing import handle_websub_callback, fetch_energy_forecast_data
+from scripts.testing import handle_websub_callback, fetch_energy_forecast_data, fetch_energy_forecast_metadata
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -190,7 +190,8 @@ def energy_forecast():
     to the template for client-side rendering via Plotly.js.
     """
     figure_data = fetch_energy_forecast_data()
-    return render_template("pages/energy_forecast.html", figure_data=figure_data)
+    metadata = fetch_energy_forecast_metadata()
+    return render_template("pages/energy_forecast.html", figure_data=figure_data, metadata=metadata)
 
 
 #### WebSub Callback:
