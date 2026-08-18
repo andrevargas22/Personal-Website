@@ -14,3 +14,5 @@ test_notification.xml
 
 # Scripts
 add_game.py
+
+creds.json

@@ -25,15 +25,6 @@ body {
   padding: 0;
 }
 
-/* ############################## NAVBAR ############################## */
-.navbar-nav {
-  margin-left: auto;
-}
-
-.navbar-nav > li {
-  margin: 0 var(--nav-spacing);
-}
-
 /* ############################## HEADER ############################## */
 .header-title {
   text-align: center;

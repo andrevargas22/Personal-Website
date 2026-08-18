@@ -4,14 +4,6 @@ body {
     background: #FFFAF0;
 }
 
-.navbar-nav {
-    margin-left: auto;
-}
-
-.navbar-nav > li {
-    margin: 0 30px;
-}
-
 /* Plot container */
 #forecast-plot {
     width: 100%;

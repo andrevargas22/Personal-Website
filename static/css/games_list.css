@@ -59,15 +59,6 @@ body {
   background: var(--bg-color); 
 }
 
-/* ############################## NAVBAR ############################## */
-.navbar-nav {
-  margin-left: auto;
-}
-
-.navbar-nav > li {
-  margin: 0 var(--nav-spacing);
-}
-
 /* ############################## PORTFOLIO ############################## */
 .portfolio-menu {
   text-align: center;

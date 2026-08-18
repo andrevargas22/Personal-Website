@@ -1,0 +1,22 @@
+/* Shared navbar styles to keep consistent size across all pages */
+
+.navbar-nav {
+  margin-left: auto;
+}
+
+.navbar-nav > li {
+  margin: 0 30px;
+}
+
+/* Lock link metrics to avoid subtle cross-page height shifts */
+.navbar .navbar-brand,
+.navbar .nav-link {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-nav > li {
+    margin: 0;
+  }
+}

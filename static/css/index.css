@@ -43,16 +43,6 @@ a {
   transition: color 0.3s ease;
 }
 
-/* ############################## NAVBAR ############################## */
-/* Navigation menu styling */
-.navbar-nav {
-  margin-left: auto;
-}
-
-.navbar-nav > li {
-  margin: 0 var(--nav-spacing);
-}
-
 /* ############################## SHOWCASE SECTION ############################## */
 /* Main heading style */
 .showcase {
@@ -136,7 +126,4 @@ a {
     padding: 0 20px;
   }
   
-  .navbar-nav > li {
-    margin: 0 calc(var(--nav-spacing) / 2);
-  }
 }

@@ -87,6 +87,53 @@
 				</div>
 			</div>
 
+			<!-- MLOps in practice -->
+			<div class="row mt-4">
+				<div class="col-12">
+					<p><b>MLOps in practice:</b></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-12 mb-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<h6 class="card-title"><i class="fas fa-brain text-muted me-1"></i>Training &amp; Registry</h6>
+							<p class="card-text small">
+								A CNN trained in TensorFlow/Keras logs its hyperparameters, metrics and the model
+								artifact itself to the same shared MLflow server used by my other projects. The API
+								never ships a bundled model file — it pulls whatever version is currently aliased
+								<code>champion</code> in the Model Registry at startup.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 col-12 mb-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<h6 class="card-title"><i class="fas fa-server text-muted me-1"></i>Inference API</h6>
+							<p class="card-text small">
+								FastAPI service on Cloud Run. Each request goes through staged error handling —
+								decode, preprocess, predict, extract activations — so a failure in one stage (say,
+								activation extraction) degrades gracefully instead of losing the prediction. A
+								<code>/health</code> endpoint reports whether the model actually loaded.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 col-12 mb-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<h6 class="card-title"><i class="fas fa-code-branch text-muted me-1"></i>CI/CD</h6>
+							<p class="card-text small">
+								GitHub Actions builds a Docker image on every push to main, pushes it to Artifact
+								Registry, and deploys straight to Cloud Run — no manual deploy step between
+								committing code and it being live.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<!-- MLOps Architecture Section -->
 			<div class="row mt-4">
 				<div class="col-12">
