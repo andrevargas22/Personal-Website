@@ -27,15 +27,6 @@ body {
   width: 100%;
 }
 
-/* ############################## NAVBAR ############################## */
-.navbar-nav {
-  margin-left: auto;
-}
-
-.navbar-nav > li {
-  margin: 0 var(--nav-spacing);
-}
-
 /* ############################## TYPOGRAPHY ############################## */
 .text {
   text-align: justify;

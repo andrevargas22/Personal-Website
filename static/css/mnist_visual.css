@@ -7,15 +7,6 @@ body {
   background: #FFFAF0;
 }
 
-/* Navbar */
-.navbar-nav {
-  margin-left: auto;
-}
-
-.navbar-nav > li {
-  margin: 0 30px;
-}
-
 /* Canvas styling */
 #canvas {
     background-color: #000;
@@ -184,15 +175,40 @@ body {
     }
 }
 
+/* Info cards */
+.card {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.card-text {
+    color: #555;
+    line-height: 1.5;
+}
+
+.card-text code {
+    background: #f1f1f1;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: #c7254e;
+}
+
 /* Instructions styling */
 p b {
     color: #212529;
 }
 
-ul {
+.container ul {
     margin-top: 0.5rem;
 }
 
-ul li {
+.container ul li {
     margin-bottom: 0.5rem;
 }

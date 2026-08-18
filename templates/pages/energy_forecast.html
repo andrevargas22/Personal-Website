@@ -1,0 +1,124 @@
+<!--
+    Personal Website - Brazilian Energy Consumption Forecast
+    Description: Interactive visualization of monthly energy consumption forecast
+    using an H2O AutoML model trained on ONS open data. Updated automatically
+    every month via GitHub Actions.
+-->
+
+{% extends 'base/layout.html' %}
+{% block title %}BR Energy Consumption Forecast - André Vargas{% endblock %}
+{% block head_extra %}
+    <meta name="description" content="Monthly forecast of Brazilian electric energy consumption by subsystem, powered by H2O AutoML and ONS open data.">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/energy_forecast.css') }}">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-lg-12 text-center my-2">
+                <h4 class="border-bottom border-dark p-2">Brazilian Energy Consumption Forecast</h4>
+                <center>
+                    <p>
+                        An end-to-end AutoML pipeline that trains an AutoML model on historical ONS open data
+                        and produces monthly forecasts of electric energy consumption across Brazil's four
+                        subsystems (N, NE, S, SE) and the national grid (SIN).
+                        Updated automatically on the 1st of each month via GitHub Actions.
+                    </p>
+                </center>
+            </div>
+        </div>
+
+        <!-- Legend hint -->
+        <div class="row mb-2">
+            <div class="col-12">
+                <p class="text-muted small mb-1">
+                    <b>Tip:</b> Click a legend item to show/hide it.
+                    Double-click to isolate a single series.
+                    Use the range buttons or the slider below the chart to zoom into a period.
+                    The <span style="color:#ff7f0e;font-weight:600;">orange</span> region is the forecast;
+                    to the left of the line, actual data overlaps the forecast for comparison.
+                </p>
+            </div>
+        </div>
+
+        <!-- Interactive Plot -->
+        <div class="row">
+            <div class="col-12">
+                {% if figure_data %}
+                    <div id="forecast-plot"></div>
+                {% else %}
+                    <div class="text-center text-muted py-5" id="forecast-unavailable">
+                        <p class="mb-1">Forecast data is temporarily unavailable.</p>
+                        <p class="small">The chart will appear here after the next monthly update.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Pipeline details -->
+        <div class="row mt-4">
+            <div class="col-md-4 col-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="card-title">Data Source</h6>
+                        <p class="card-text small">
+                            Daily energy load, reservoir storage (EAR) and generation mix
+                            from the <a href="https://dados.ons.org.br" target="_blank" rel="noopener">ONS open data portal</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="card-title">Model</h6>
+                        <p class="card-text small">
+                            {% if metadata %}
+                                H2O AutoML — best model: <b>{{ metadata.model_type }}</b> with {{ metadata.n_features }} engineered features
+                                (temporal, lag, rolling, ratios). Test MAPE: <b>{{ metadata.test_mape }}%</b>.
+                                {% if metadata.current_month_mape is not none and metadata.current_month_days > 0 %}
+                                    Current month MAPE ({{ metadata.current_month_days }} day{{ 's' if metadata.current_month_days != 1 }}): <b>{{ metadata.current_month_mape }}%</b>.
+                                {% endif %}
+                            {% else %}
+                                H2O AutoML with engineered features (temporal, lag, rolling, ratios).
+                            {% endif %}
+                            Tracked and versioned in MLflow.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="card-title">Automation</h6>
+                        <p class="card-text small">
+                            GitHub Actions runs on the 1st of every month: checks for new ONS data,
+                            incrementally updates the consolidated dataset, and re-runs inference.
+                            GitHub: <a href="https://github.com/andrevargas22/Energy_Consumption_AutoML" target="_blank" rel="noopener">Energy_Consumption_AutoML</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+{% block scripts_extra %}
+{% if figure_data %}
+<script nonce="{{ g.csp_nonce }}">
+    (function () {
+        const fig = {{ figure_data | tojson }};
+        const config = {
+            responsive: true,
+            displaylogo: false,
+            modeBarButtonsToRemove: ["select2d", "lasso2d"],
+        };
+        Plotly.newPlot("forecast-plot", fig.data, fig.layout, config);
+    })();
+</script>
+{% endif %}
+{% endblock %}

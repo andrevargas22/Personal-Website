@@ -26,6 +26,9 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
     {% block head_extra %}{% endblock %}
+
+    <!-- Shared navbar styles (loaded after page CSS to keep navbar consistent) -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/navbar.css') }}">
 </head>
 <body>
 
