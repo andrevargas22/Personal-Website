@@ -576,3 +576,18 @@ def fetch_energy_forecast_metadata() -> dict | None:
     except Exception as exc:
         logging.warning(f"[EnergyForecast] Could not fetch metadata from GCS: {exc}")
         return None
+
+
+def fetch_energy_activity_log() -> list | None:
+    """Download the pipeline activity log JSON from GCS (most recent last)."""
+    import json as _json
+    from google.cloud import storage as _gcs
+
+    try:
+        client = _gcs.Client()
+        blob = client.bucket(_GCS_BUCKET).blob("activity_log.json")
+        events = _json.loads(blob.download_as_text(encoding="utf-8"))
+        return list(reversed(events))
+    except Exception as exc:
+        logging.warning(f"[EnergyForecast] Could not fetch activity log from GCS: {exc}")
+        return None

@@ -17,7 +17,7 @@ import secrets
 from scripts.functions import fetch_articles, get_games_by_letter
 
 # Testing functions
-from scripts.testing import handle_websub_callback, fetch_energy_forecast_data, fetch_energy_forecast_metadata
+from scripts.testing import handle_websub_callback, fetch_energy_forecast_data, fetch_energy_forecast_metadata, fetch_energy_activity_log
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -202,7 +202,11 @@ def energy_forecast():
     """
     figure_data = fetch_energy_forecast_data()
     metadata = fetch_energy_forecast_metadata()
-    return render_template("pages/energy_forecast.html", figure_data=figure_data, metadata=metadata)
+    activity_log = fetch_energy_activity_log()
+    return render_template(
+        "pages/energy_forecast.html",
+        figure_data=figure_data, metadata=metadata, activity_log=activity_log,
+    )
 
 
 #### WebSub Callback:

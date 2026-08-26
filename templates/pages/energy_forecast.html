@@ -85,7 +85,8 @@
                             {% else %}
                                 H2O AutoML with engineered features (temporal, lag, rolling, ratios).
                             {% endif %}
-                            Tracked and versioned in MLflow.
+                            Tracked and versioned in MLflow, with a rolling-window accuracy check
+                            that automatically retrains and redeploys the model on sustained drift.
                         </p>
                     </div>
                 </div>
@@ -103,6 +104,30 @@
                 </div>
             </div>
         </div>
+
+        <!-- Pipeline activity log -->
+        {% if activity_log %}
+        <div class="row mt-1">
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Recent Activity</h6>
+                        <ul class="list-unstyled small mb-0 activity-log">
+                            {% for event in activity_log %}
+                            <li class="d-flex align-items-baseline gap-2 py-1">
+                                <span class="badge {{ 'bg-warning text-dark' if event.type == 'retrain' else 'bg-secondary' }}">
+                                    {{ event.type }}
+                                </span>
+                                <span class="text-muted">{{ event.date }}</span>
+                                <span>{{ event.detail }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
     </div>
 
